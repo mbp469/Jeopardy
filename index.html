@@ -23,9 +23,11 @@
 
         <section id="question-area">
           <button id="next-question">Next Question</button>
+          <button id="exit">Exit Game</button>
+          <button id="clear">Delete All Games</button>
           <div id="question-div">
           </div>
-          <div>
+          <div id="result-div">
             <input id="submitted-answer" type='text' name='answer' placeholder="Type your answer here."></input>
             <button id="submit">Submit Answer</button>
           </div>
@@ -33,7 +35,7 @@
         </section>
 
         <footer>
-          <section id="score-board">
+          <section id="score-board-section">
           </section>
         </footer>
     </main>
@@ -45,11 +47,13 @@
     </script>
 
     <script id="answer-right" type="text/x-handlebars-template">
-      <p>You answered correctly! Keep it up!!</p>
+      <p>{{answer}} is the correct answer! You scored {{points}} points!</p>
+      <p>Keep it up!!</p>
     </script>
 
     <script id="answer-wrong" type="text/x-handlebars-template">
-      <p>WRONG. The correct answer was {{answer}}</p>
+      <p>WRONG. The correct answer was {{answer}}.</p>
+      <p>You just lost {{points}} points.</p>
     </script>
 
     <script id="score-board" type="text/x-handlebars-template">
@@ -60,12 +64,13 @@
         <p>{{wrong}}</p>
       </div>
       <div id="total-score">
-        <p>{{score}}</p>
+        <p>{{total}}</p>
       </div>
     </script>
 <!-- Regular Scripts ********************************************** -->
-    <!-- <script src="js/jquery-3.1.1.min.js"></script> -->
-    <script src="lib/js/main.min.js"></script>
+    <script src="src/js/jquery-3.1.1.js"></script>
+    <script src="src/js/handlebars-v4.0.5.js"></script>
+    <script src="src/js/main.js"></script>
 
 </body>
 
