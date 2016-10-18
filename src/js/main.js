@@ -1,7 +1,7 @@
 (function() {
     "use strict";
     $(document).ready(function() {
-
+      checkLocalStorage();
         var allGames = [];
 
 
@@ -22,9 +22,10 @@ function Game() {
 }
 Game.prototype.init = function() {
   $('#question-div').empty();
-  $('#score-board').empty();
+  $('#result-div').empty();
+  $('#score-board-section').empty();
   console.log('init');
-  this.generateQuestion();
+  this.eventHandlers();
 
 
   //bind event listeners here
@@ -57,17 +58,20 @@ Game.prototype.tallyScores = function(result, points, answer) {
   }
   var context = this.tallies;
   appendTemplate('score-board', 'score-board-section',context);
-
 };
-
+Game.prototype.eventHandlers = function() {
+  //call generateQuestion
+  var _this = this;
+  $('#next-question').on('click', function(event){
+    _this.generateQuestion();
+  });
+};
 
 Game.prototype.generateQuestion = function() {
   var _this = this;
   /* when next-question button is clicked, do an API call
     to return a random question as a json */
-  $('#next-question').on('click', function(event) {
-    console.log('in next-question');
-    checkLocalStorage();
+    // checkLocalStorage();
       var settings = {
           "async": true,
           "method": "GET",
@@ -79,6 +83,9 @@ Game.prototype.generateQuestion = function() {
           var question = new Question(response[0]);
           var points = question.context.value;
           var answer = question.context.answer;
+          $('#question-div').empty();
+          $('#result-div').empty();
+          $('#submitted-answer').val('');
           console.log(question.context.answer);
           //append question
           appendTemplate('append-question', 'question-div', question.context);
@@ -88,19 +95,17 @@ Game.prototype.generateQuestion = function() {
               var submittedAnswer = $('#submitted-answer').val();
               if (answer.toLowerCase() === submittedAnswer.toLowerCase()) {
                   _this.tallyScores('right', points, answer);
-                  console.log('right');
                   //appendTemplate
               } else {
                   _this.tallyScores('wrong', points, answer);
                   //appendTemplate
-                  console.log('wrong');
               }
+              $('#submit').off('click');
           });
           //test response
           //append feedback
           //update tallies
       });
-  });
 };
 
 function Question(dataObject) {
@@ -153,7 +158,7 @@ function appendTemplate(script, target, context){
   var source = $('#' + script).html();
   var template = Handlebars.compile(source);
   var html = template(context);
-  $('#' + target).empty();
+  // $('#' + target).empty();
   $(html).appendTo('#' + target);
 }
 var game = new Game();
