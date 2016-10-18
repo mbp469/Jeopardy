@@ -16,13 +16,15 @@
         <header>
           <section class="header-container">
             <h1>Jeopardy</h1>
-            <div id="choose-game">
+            <div>
+              <select id="choose-game" type="text" name="choose-game">
+              </select>
             </div>
           </section>
         </header>
 
         <section id="question-area">
-          <button id="next-question">Next Question</button>
+          <button id="next-question">Get a Question</button>
           <button id="exit">Exit Game</button>
           <button id="clear">Delete All Games</button>
           <div id="question-div">
@@ -47,26 +49,37 @@
     </script>
 
     <script id="answer-right" type="text/x-handlebars-template">
+      <div id="right"
       <p>{{answer}} is the correct answer! You scored {{points}} points!</p>
       <p>Keep it up!!</p>
+    </div>
     </script>
 
     <script id="answer-wrong" type="text/x-handlebars-template">
+      <div id="wrong">
       <p>WRONG. The correct answer was {{answer}}.</p>
       <p>You just lost {{points}} points.</p>
+    </div>
     </script>
 
     <script id="score-board" type="text/x-handlebars-template">
       <div id="questions-right">
-        <p>{{right}}</p>
+        <p>Correct Answers: {{right}}</p>
       </div>
       <div id="questions-wrong">
-        <p>{{wrong}}</p>
+        <p>Incorrect Answers: {{wrong}}</p>
       </div>
       <div id="total-score">
-        <p>{{total}}</p>
+        <p>Current Score: {{total}}</p>
       </div>
     </script>
+
+    <script id="select-game" type="text/x-handlebars-template">
+      {{#each games}}
+      <option class="selectable-games" data-id="{{@key}}" value="{{this.timeStarted}}">{{@key}}: {{this.timeStarted}}</option>
+      {{/each}}
+    </script>
+
 <!-- Regular Scripts ********************************************** -->
     <script src="src/js/jquery-3.1.1.js"></script>
     <script src="src/js/handlebars-v4.0.5.js"></script>
