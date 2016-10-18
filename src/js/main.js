@@ -1,7 +1,7 @@
 (function() {
     "use strict";
     $(document).ready(function() {
-      checkLocalStorage();
+
         var allGames = [];
 
 
@@ -83,6 +83,12 @@ Game.prototype.generateQuestion = function() {
           var question = new Question(response[0]);
           var points = question.context.value;
           var answer = question.context.answer;
+          answer = answer.replace(/<.*?\>|\(|\)|[\][...]|"|'|\\/gi, "");
+          console.log(answer);
+
+
+
+
           $('#question-div').empty();
           $('#result-div').empty();
           $('#submitted-answer').val('');
@@ -92,6 +98,7 @@ Game.prototype.generateQuestion = function() {
           //wait for response
           $('#submit').on('click', function(event) {
               event.preventDefault();
+
               var submittedAnswer = $('#submitted-answer').val();
               if (answer.toLowerCase() === submittedAnswer.toLowerCase()) {
                   _this.tallyScores('right', points, answer);
@@ -164,4 +171,5 @@ function appendTemplate(script, target, context){
 var game = new Game();
 
     }); //end of $(document).ready function
+
 })(); //end of anonymous function
