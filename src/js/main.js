@@ -112,7 +112,7 @@
                 "method": "GET",
                 "crossDomain": true,
                 "dataType": "json",
-                "url": "//jservice.io/api/random"
+                "url": "http://jservice.io/api/random"
             };
             $.ajax(settings).done(function(response) {
                 var question = new Question(response[0]);
