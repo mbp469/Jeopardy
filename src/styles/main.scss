@@ -1,13 +1,79 @@
 * {
-  background: beige;
+    background-image: url("../../images/triangles/triangles.png");
+    color: beige;
 }
 
-#result-dive {
-  #right {
-    background: green;
-  }
-  #wrong {
-    background: red;
-  }
+body {
+    position: relative;
+}
 
+header {
+    width: 100%;
+    text-align: center;
+    font-size: 2em;
+    text-shadow: 2px 2px 5px lightgrey;
+
+    h2 {
+        font-size: 1.25em;
+    }
+}
+
+#question-area {
+    text-align: center;
+    padding: 25px 2px 25px 0;
+
+    #next-question-container {
+        width: 100%;
+
+        button {
+            width: 18%;
+            height: 69px;
+            font-size: 1em;
+        }
+    }
+
+    button {
+        background: lightgrey;
+        color: black;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 0 10px 10px;
+    }
+
+    input {
+        margin: 15px auto;
+        line-height: 2em;
+        width: 20%;
+        display: block;
+        text-align: center;
+    }
+
+    div {
+        font-size: 1.25em;
+        margin: 20px 0;
+    }
+}
+
+#results-div {
+    position: absolute;
+    width: 100%;
+    top: 61%;
+}
+
+.right {
+    background: green;
+}
+
+.wrong {
+    background: red;
+}
+
+#score-board-section {
+    display: flex;
+    flex-direction: row;
+
+    div {
+        width: 33%;
+        text-align: center;
+    }
 }

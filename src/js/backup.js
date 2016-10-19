@@ -2,6 +2,7 @@
     "use strict";
     $(document).ready(function() {
         var allGames = [];
+        var game = new Test();
 
 
         /* ===================Constructors and Prototypes======================== */
@@ -14,11 +15,19 @@
                 wrong: 0,
                 total: 0
             };
-            allGames.push(this);
+            // allGames.push(this);
             this.init();
-            storage.set();
+            // storage.set();
         }
 
+        Test.prototype.init = function() {
+          console.log('in new init');
+        };
+        function Test() {
+          this.whatever = 'whoa';
+          console.log(this);
+          this.init();
+        }
 
         Game.prototype.init = function() {
             $('#question-div').empty();
@@ -44,12 +53,12 @@
             if (result === 'right') {
                 this.tallies.right++;
                 this.tallies.total += points;
+
                 appendTemplate('answer-right', 'result-div', feedbackContext);
             } else {
                 this.tallies.wrong++;
                 this.tallies.total -= points;
                 appendTemplate('answer-wrong', 'result-div', feedbackContext);
-
             }
             var context = this.tallies;
             appendTemplate('score-board', 'score-board-section', context);
@@ -59,8 +68,8 @@
             //call generateQuestion
             var _this = this;
             //dump old handlers.
-            $('#choose-game').off('change');
-            $('#submit, #next-question, #exit').off('click');
+            $('#submit').off('click');
+            $('#next-question').off('click');
 
             $('#next-question').on('click', function(event) {
                 _this.generateQuestion();
@@ -69,6 +78,7 @@
 
             //exit the game
             $('#exit').on('click', function() {
+                console.log('in exit');
                 _this.active = false;
                 storage.set();
                 var newGame = new Game();
@@ -77,26 +87,21 @@
 
             //clear all the games
             $('#clear').on('click', function() {
-              _this.active = false;
                 $('#submitted-answer').val('');
                 allGames = [];
                 storage.clear();
                 var newGame = new Game();
             });
 
-            //load a saved game
+            //load a saved games
             $('#choose-game').on('change', function(event) {
-              $(event.target).attr('selected');
-              _this.active = false;
-              storage.set();
                 var selectedGameIndex = $('#choose-game option:selected').data('id');
-                var games = storage.get();
 
-                game.active = true;
-                game.timeStarted = games[selectedGameIndex].timeStarted;
-                game.tallies = games[selectedGameIndex].tallies;
-                console.log(_this);
-                console.log(games);
+                var games = storage.get();
+                var selectedGame = new Game();
+                selectedGame.active = true;
+                selectedGame.timeStarted = games[selectedGameIndex].timeStarted;
+                selectedGame.tallies = games[selectedGameIndex].tallies;
             });
         };
 
@@ -139,7 +144,7 @@
                         _this.tallyScores('wrong', points, answer);
                         //appendTemplate
                     }
-                    // storage.set();
+                    storage.set();
                     $('#submit').off('click');
 
                 });
@@ -176,22 +181,22 @@
         };
 
 
-        function checkLocalStorage() {
-            /* Local Storage Check */
-            if (storage.get()) {
-                var games = storage.get();
-                for (var index = 0; index < games.length; index++) {
-                    if (games[index].active === true) {
-                      console.log('restored game');
-                        // game = new Game();
-                        game.active = games[index].active;
-                        game.timeStarted = games[index].timeStarted;
-                        game.tallies = games[index].tallies;
-                        allGames[index] = game;
-                    }
-                }
-            }
-        }
+        // function checkLocalStorage() {
+        //   /* Local Storage Check */
+        // if (storage.get()) {
+        //     var games = storage.get();
+        //     for (var index = 0; index < games.length; index++) {
+        //       if(games[index].active === true){
+        //         game = new Game();
+        //         game.active = games[index].active;
+        //         game.timeStarted = games[index].timeStarted;
+        //         game.tallies = games[index].tallies;
+        //         allGames[index] = game;
+        //         }
+        //         storage.set();
+        //     }
+        // }
+        // }
 
         /*================= appendTemplate ====================*/
 
@@ -200,10 +205,9 @@
             var source = $('#' + script).html();
             var template = Handlebars.compile(source);
             var html = template(context);
+            // $('#' + target).empty();
             $(html).appendTo('#' + target);
         }
-
-        var game = new Game();
     }); //end of $(document).ready function
 
 })(); //end of anonymous function
